@@ -1,13 +1,7 @@
 class Url < ApplicationRecord
   validates :long_url, uniqueness: true, presence: true, format: { with: /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/, message: "Not a valid URL"}
   validates :short_url, uniqueness: true
-  after_initialize :set_count
   before_create :shorten
-
-
-  def set_count
-    self.count ||= 0
-  end
 
   def shorten
     self.short_url = SecureRandom.hex(3)
@@ -19,6 +13,4 @@ class Url < ApplicationRecord
     # return "#{end_of_short_url}"
   end
 
-  def increment_count
-    self.count +=1
 end
